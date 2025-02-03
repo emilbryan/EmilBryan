@@ -1,0 +1,47 @@
+
+Console.WriteLine("Emil Bryan Yordan");
+
+
+            do
+            {
+                double res = 0;
+                double num1  = 0;
+                double num2 = 0;
+                Console.Write("Enter first number: ");
+                 num1 = Convert.ToDouble(Console.ReadLine());
+                Console.Write("Enter second number: ");
+                 num2 = Convert.ToDouble(Console.ReadLine());
+
+                Console.WriteLine("Enter symbol(/,+,-,*): ");
+                Console.WriteLine("\t+ :Addition ");
+                Console.WriteLine("\t- :Subtraction ");
+                Console.WriteLine("\t* :Multiplication ");
+                Console.WriteLine("\t/ :Divide ");
+                Console.Write("Enter symbol: ");
+               
+                switch (Console.ReadLine())
+                {
+                    case "+":
+                        res = num1 + num2;
+                        Console.WriteLine("Addition:" + res);
+                        break;
+                    case "-":
+                        res = num1 - num2;
+                        Console.WriteLine("Subtraction:" + res);
+                        break;
+                    case "*":
+                        res = num1 * num2;
+                        Console.WriteLine("Multiplication:" + res);
+                        break;
+                    case "/":
+                        res = num1 / num2;
+                        Console.WriteLine("Division:" + res);
+                        break;
+                    default:
+                        Console.WriteLine("Wrong input Symbol");
+                        break;
+                }
+                Console.Write("Do you want to continue(y/n): ");
+            } while (Console.ReadLine().ToUpper() == "Y");
+            Console.WriteLine("Thank you sir!!");
+    
