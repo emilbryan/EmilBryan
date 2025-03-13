@@ -1,0 +1,127 @@
+using System;
+using System.Collections.Generic;
+
+namespace LibraryBorrowSystem
+{
+    
+    public class Book
+    {
+        public string Title { get; set; }
+        public string Author { get; set; }
+        public bool IsAvailable { get; set; } = true;
+
+        public Book(string title, string author)
+        {
+            Title = title;
+            Author = author;
+        }
+    }
+
+   
+    public class User
+    {
+        public string Name { get; set; }
+        public List<Book> BorrowedBooks { get; set; } = new List<Book>();
+
+        public User(string name)
+        {
+            Name = name;
+        }
+    }
+
+    
+    public class Library
+    {
+        public List<Book> Books { get; set; } = new List<Book>();
+        public List<User> Users { get; set; } = new List<User>();
+
+        public void AddBook(Book book)
+        {
+            Books.Add(book);
+        }
+
+        public void RegisterUser (User user)
+        {
+            Users.Add(user);
+        }
+
+        public void BorrowBook(User user, string bookTitle)
+        {
+            Book book = Books.Find(b => b.Title.Equals(bookTitle, StringComparison.OrdinalIgnoreCase) && b.IsAvailable);
+            if (book != null)
+            {
+                user.BorrowedBooks.Add(book);
+                book.IsAvailable = false;
+                Console.WriteLine($"{user.Name} borrowed '{book.Title}'.");
+            }
+            else
+            {
+                Console.WriteLine($"Sorry, '{bookTitle}' is not available.");
+            }
+        }
+
+        public void ReturnBook(User user, string bookTitle)
+        {
+            Book book = user.BorrowedBooks.Find(b => b.Title.Equals(bookTitle, StringComparison.OrdinalIgnoreCase));
+            if (book != null)
+            {
+                user.BorrowedBooks.Remove(book);
+                book.IsAvailable = true;
+                Console.WriteLine($"{user.Name} returned '{book.Title}'.");
+            }
+            else
+            {
+                Console.WriteLine($"{user.Name} does not have '{bookTitle}' borrowed.");
+            }
+        }
+
+        public void ListAvailableBooks()
+        {
+            Console.WriteLine("Available Books:");
+            foreach (var book in Books)
+            {
+                if (book.IsAvailable)
+                {
+                    Console.WriteLine($"- {book.Title} by {book.Author}");
+                }
+            }
+        }
+    }
+
+  
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Library library = new Library();
+
+           
+            library.AddBook(new Book("1984", "George Orwell"));
+            library.AddBook(new Book("To Kill a Mockingbird", "Harper Lee"));
+            library.AddBook(new Book("The Great Gatsby", "F. Scott Fitzgerald"));
+
+            
+            User user1 = new User("Alice");
+            User user2 = new User("Bob");
+            library.RegisterUser (user1);
+            library.RegisterUser (user2);
+
+            
+            library.ListAvailableBooks();
+
+          
+            library.BorrowBook(user1, "1984");
+            library.BorrowBook(user2, "The Great Gatsby");
+
+            
+            library.ListAvailableBooks();
+
+           
+            library.ReturnBook(user1, "1984");
+            library.ReturnBook(user2, "The Great Gatsby");
+
+           
+            library.ListAvailableBooks();
+        }
+    }
+}
